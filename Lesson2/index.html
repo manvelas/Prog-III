@@ -1,0 +1,106 @@
+<html>
+  <head> 
+      <title>Final Project</title>
+      <script type="text/javascript" src="LivingCreature.js"></script>
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/0.5.14/p5.js"></script>
+      <script type="text/javascript" src="Grass.js"></script>
+      <script type="text/javascript" src="GrassEater.js"></script>
+      <script type="text/javascript" src="Wolf.js"></script>
+      <script type="text/javascript" src="People.js"></script>
+      <script type="text/javascript" src="Tractor.js"></script>
+      <script type="text/javascript" src="script.js"></script>
+  </head>
+  <body>
+      <style>
+        #legend {
+          float: top;
+          width: 800px;
+          }
+        .legend-color {
+          width: 30px;height: 30px;
+        }
+        td {
+          border: 1px solid black;
+          font-size: 14px;
+          padding-left: 5px;
+        }
+      </style>
+  </head>
+  <body>
+      <table id="legend">
+          <tr>
+            <td class="legend-color">Գույն</td>
+            <td>Անվանում</td>
+            <td>Շարժվում է</td>
+            <td>Ուտում է</td>
+            <td>Բազմանում է</td>
+            <td>Սատկում է</td>
+            <td>Յուրահատկություն</td>
+          </tr>
+  
+          <tr>
+            <td class="legend-color" style="background-color:gray"></td>
+            <td>Դատարկ վանդակներ</td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+          </tr>
+          <tr>
+            <td class="legend-color" style="background-color:green"></td>
+            <td>Խոտ</td>
+            <td></td>
+            <td></td>
+            <td>Մոտակա 8 վանդակներում, 1 տակտը մեկ</td>
+            <td></td>
+            <td></td>
+          </tr>
+          <tr>
+            <td class="legend-color" style="background-color:yellow"></td>
+            <td>Խոտակեր</td>
+            <td>Մոտակա 8 վանդակներում, էներգիան քչանում է 1֊ով</td>
+            <td>Խոտերին, մոտակա ր վանդակներում, ուտելիս էներգիան ավելանում է 2֊ով(չհաշված քայլելու ժամանակ եներգիայի 1-ով պակասելը),սակայն կա հատուկ խոտ որը ուտելիս էներգիան քչանում է 2-ով(չհաշված քայլելու ժամանակ եներգիայի 1-ով պակասելը) </td>
+            <td>Բազմանում է մոտակա տարածքներում, երբ էներգիան 8֊ից ավել է</td>
+            <td>Սատկում է, երբ էներգիան փոքր կամ հավասար է 0֊ի</td>
+            <td></td>
+          </tr>
+          <tr>
+            <td class="legend-color" style="background-color:red"></td>
+            <td>Գայլ</td>
+            <td>Մոտակա 24 վանդակներում, քյլում է ոչ միայն դատարկ վանդակների վրայով այլ նաև խոտերի վրայով և ոչնչացնոմ է խոտը, էներգիան քչանում է 1֊ով</td>
+            <td>Խոտակերներին, մոտակա 24 վանդակներում, ուտելիս էներգիան ավելանում է 2֊ով(չհաշված քայլելու ժամանակ եներգիայի 1-ով պակասելը),սակայն կա հատուկ խոտ որը ուտելիս էներգիան քչանում է 2-ով(չհաշված քայլելու ժամանակ եներգիայի 1-ով պակասելը)</td>
+            <td>Բազմանում է մոտակա տարածքներում, երբ էներգիան 12֊ից ավել է</td>
+            <td>Սատկում է, երբ էներգիան փոքր կամ հավասար է 0֊ի</td>
+            <td></td>
+          </tr>
+          <tr>
+            <td class="legend-color" style="background-color:blue"></td>
+            <td>Մարդ</td>
+            <td>Մոտակա 8 վանդակներում, էներգիան քչանում է 2֊ով</td>
+            <td>Գայլ, մոտակա 8 վանդակներում, ուտելիս էներգիան ավելանում է 2֊ով(չհաշված քայլելու ժամանակ եներգիայի 1-ով պակասելը),սակայն կա հատուկ խոտ որը ուտելիս էներգիան քչանում է փ-ով(չհաշված քայլելու ժամանակ եներգիայի 1-ով պակասելը)</td>
+            <td>Բազմանում է մոտակա տարածքներում, երբ էներգիան 15֊ից ավել է</td>
+            <td>Սատկում է, երբ էներգիան փոքր կամ հավասար է 0֊ի</td>
+            <td>Բազմանում է եթե մոտակա 8 վանդակներում կա մարդ</td>
+          </tr>
+          <tr>
+            <td class="legend-color" style="background-color:orange"></td>
+            <td>Տռակտոր</td>
+            <td>Մոտակա 8 վանդակներում, էներգիան քչանում է 2֊ով</td>
+            <td>Մարդ, մոտակա 8 վանդակներում, ուտելիս էներգիան ավելանում է 3֊ով(չհաշված քայլելու ժամանակ եներգիայի 1-ով պակասելը),սակայն կա հատուկ խոտ որը ուտելիս էներգիան քչանում է փ-ով(չհաշված քայլելու ժամանակ եներգիայի 1-ով պակասելը)</td>
+            <td>Բազմանում է մոտակա տարածքներում և բազմանում են միայն եթե աղջիկ են , երբ էներգիան 18֊ից ավել է </td>
+            <td>Սատկում է, երբ էներգիան փոքր կամ հավասար է 0֊ի</td>
+            <td>Քայլելիս կամ ուտելիս իր առաջվա վնդակը սարքում է հատուկ խոտ և ունի սեռային տարբերություն</td>
+          </tr>
+          <tr>
+              <td class="legend-color" style="background-color:black"></td>
+              <td>Հատուկ խոտ</td>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td>Բացի տռակտորից բոլորը կարողանում են ուտել,սակայն սովորական քյլելուց շատ է քչացնում  էներգիան</td>
+            </tr>
+      </table>
+  </body>
+</html>
