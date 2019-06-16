@@ -60,7 +60,7 @@ function matrixGenerator(matrixSize, grass, grassEater, Wolf , People , Tractor)
         matrix[customY][customX] = 5;
     }
 }
-matrixGenerator(20,175,10,50,20,5);
+matrixGenerator(20,250,50,10,20,5);
 //! Creating MATRIX -- END
 
 
