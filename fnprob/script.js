@@ -14,6 +14,7 @@ function setup() {
     let WolfCountElement = document.getElementById('WolfCount');
     let PeopleCountElement = document.getElementById('PeopleCount');
     let TractorCountElement = document.getElementById('TractorCount');
+    let NutellaCountElement = document.getElementById('NutellaCount');
     //! adding socket listener on "data" <-- name, after that fire 'drawCreatures' function 
 
     socket.on("data", drawCreatures);
@@ -21,11 +22,15 @@ function setup() {
     function drawCreatures(data) {
         //! after getting data pass it to matrix variable
         matrix = data.matrix;
+        season = data.weather;
+        var weatherP = document.getElementById("weather");
+        weatherP.innerHTML = season;
         grassCountElement.innerText = data.grassCounter;
         grassEaterCountElement.innerText = data.grassEaterCounter;
         WolfCountElement.innerText = data.WolfCounter;
         PeopleCountElement.innerText = data.PeopleCounter;
         TractorCountElement.innerText = data.TractorCounter;
+        NutellaCountElement.innerText = data.NuttelaCounter;
         //! Every time it creates new Canvas woth new matrix size
         createCanvas(matrix[0].length * side, matrix.length * side)
         //! clearing background by setting it to new grey color

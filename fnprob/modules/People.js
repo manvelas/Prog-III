@@ -54,6 +54,7 @@ module.exports = class People extends LivingCreature {
             matrix[newY][newX] = this.index;
             if(matrix[newY][newX] ==3){
                 for (var i in WolfArr) {
+                    WolfHashiv--;
                     if (newX == WolfArr[i].x && newY == WolfArr[i].y) {
                         WolfArr.splice(i, 1);
                         break;
@@ -62,6 +63,7 @@ module.exports = class People extends LivingCreature {
                 this.energy += 2;
             }
             else if(matrix[newY][newX] ==6){
+                NutellaHashiv--;
                 this.energy--;
             }
             this.y = newY;
@@ -72,6 +74,7 @@ module.exports = class People extends LivingCreature {
         var newCell = random(this.chooseCell(0));
         if (this.energy >= 18 && newCell && this.chooseCell(4)) {
             var newPeople = new People(newCell[0], newCell[1], this.index);
+            PeopleHashiv++;
             PeopleArr.push(newPeople);
             matrix[newCell[1]][newCell[0]] = 4;
             this.energy = 10;
@@ -80,6 +83,7 @@ module.exports = class People extends LivingCreature {
     die(){
         if (this.energy<=0){
             matrix[this.y][this.x] = 0;
+            PeopleHashiv--;
             for (var i in  PeopleArr) {
                 if (this.x ==  PeopleArr[i].x && this.y ==  PeopleArr[i].y) {
                     PeopleArr.splice(i, 1);

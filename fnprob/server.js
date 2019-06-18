@@ -21,6 +21,7 @@ grassEaterHashiv = 0;
 WolfHashiv = 0;
 PeopleHashiv = 0;
 TractorHashiv = 0;
+NutellaHashiv = 0;
 //! Setting global arrays  -- END
 
 
@@ -111,8 +112,28 @@ function creatingObjects() {
     }
 }
 creatingObjects();
-
+let season = 0;
+weateris = "Ձմեռ";
+function chweather(){
+    season++;
+    if(season>=0 && season<=6){
+        weateris = "Ձմեռ";
+    }
+    else if(season<=13){
+        weateris = "Գարուն";
+    }
+    else if(season<=20){
+        weateris = "Ամառ";
+    }
+    else if(season<=26){
+        weateris = "Աշուն";
+    }
+    else{
+        season = 0;
+    }
+}
 function game() {
+    chweather();
     if (grassArr[0] !== undefined) {
         for (var i in grassArr) {
             grassArr[i].mul();
@@ -154,7 +175,9 @@ function game() {
         grassEaterCounter: grassEaterHashiv,
         WolfCounter: WolfHashiv,
         PeopleCounter: PeopleHashiv,
-        TractorCounter: TractorHashiv
+        TractorCounter: TractorHashiv,
+        NutellaCounter: NutellaHashiv,
+        weather: weateris 
     }
 
     //! Send data over the socket to clients who listens "data"
@@ -163,4 +186,4 @@ function game() {
 
 
 
-setInterval(game, 1000)
+setInterval(game, 1000);

@@ -74,6 +74,7 @@ module.exports = class Wolf extends LivingCreature {
             matrix[newY][newX] = this.index;
             if(matrix[newY][newX] == 2){
                 for (var i in grassEaterArr) {
+                    grassEaterHashiv--;
                     if (newX == grassEaterArr[i].x && newY == grassEaterArr[i].y) {
                         grassEaterArr.splice(i, 1);
                         break;
@@ -82,6 +83,7 @@ module.exports = class Wolf extends LivingCreature {
                 this.energy += 2;
             }
             else if(matrix[newY][newX] == 6){
+                NutellaHashiv--;
                 this.energy--;
             }
             this.y = newY;
@@ -92,6 +94,7 @@ module.exports = class Wolf extends LivingCreature {
         var newCell = random(this.chooseCell(0));
         if (this.energy >= 15 && newCell) {
             var newWolf = new Wolf(newCell[0], newCell[1], this.index);
+            WolfHashiv++;
             WolfArr.push(newWolf);
             matrix[newCell[1]][newCell[0]] = 3;
             this.energy = 10;
@@ -100,6 +103,7 @@ module.exports = class Wolf extends LivingCreature {
     die(){
         if (this.energy<=0){
             matrix[this.y][this.x] = 0;
+            WolfHashiv--;
             for (var i in  WolfArr) {
                 if (this.x ==  WolfArr[i].x && this.y ==  WolfArr[i].y) {
                     WolfArr.splice(i, 1);
