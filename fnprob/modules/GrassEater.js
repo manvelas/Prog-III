@@ -3,7 +3,7 @@ var random = require("./random");
 module.exports = class GrassEater extends LivingCreature{
     constructor(x, y, index) {
         super(x,y,index);
-        this.energy = 15;
+        this.energy = 10;
     }
     getNewCoordinates() {
         this.directions = [
@@ -43,21 +43,21 @@ module.exports = class GrassEater extends LivingCreature{
             var newX = newCell[0];
             var newY = newCell[1];
             matrix[this.y][this.x] = 0;
-            matrix[newY][newX] = this.index;
             if(matrix[newY][newX] == 1){
                 for (var i in grassArr) {
-                    grassHashiv--;
                     if (newX == grassArr[i].x && newY == grassArr[i].y) {
                         grassArr.splice(i, 1);
                         break;
                     }
                 }
+                grassHashiv--;
                 this.energy += 2;
             }
             else if(matrix[newY][newX] ==6){
                 NutellaHashiv--;
                 this.energy+=2;
             }
+            matrix[newY][newX] = this.index;
             this.y = newY;
             this.x = newX;
         }
@@ -67,12 +67,23 @@ module.exports = class GrassEater extends LivingCreature{
         var newCell2 = this.chooseCell(1);
         var newCells = newCell1.concat(newCell2);
         var newCell = random(newCells);
-        if (this.energy >= 16 && newCell) {
-            var newGrassEater = new GrassEater(newCell[0], newCell[1], this.index);
-            grassEaterHashiv++;
-            grassEaterArr.push(newGrassEater);
-            matrix[newCell[1]][newCell[0]] = 2;
-            this.energy = 15;
+        if(weateris == "Ամառ" || weateris == "Գարուն" || weateris == "Ձմեռ" ){
+            if (this.energy >= 15 && newCell) {
+                var newGrassEater = new GrassEater(newCell[0], newCell[1], this.index);
+                grassEaterHashiv++;
+                grassEaterArr.push(newGrassEater);
+                matrix[newCell[1]][newCell[0]] = 2;
+                this.energy = 10;
+            }
+        }
+        else if(weateris == "Աշուն"){
+            if (this.energy >= 11 && newCell) {
+                var newGrassEater = new GrassEater(newCell[0], newCell[1], this.index);
+                grassEaterHashiv++;
+                grassEaterArr.push(newGrassEater);
+                matrix[newCell[1]][newCell[0]] = 2;
+                this.energy = 10;
+            }
         }
     }
     die(){
@@ -81,10 +92,10 @@ module.exports = class GrassEater extends LivingCreature{
             for (var i in grassEaterArr) {
                 if (this.x == grassEaterArr[i].x && this.y == grassEaterArr[i].y) {
                     grassEaterArr.splice(i, 1);
-                    grassEaterHashiv--;
                     break;
                 }
             }
+            grassEaterHashiv--;
         }
     }
 }

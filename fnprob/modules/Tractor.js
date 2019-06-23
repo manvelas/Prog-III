@@ -54,15 +54,16 @@ module.exports = class Tractor extends LivingCreature {
             var newY = newCell[1];
             matrix[this.y][this.x] = 6;
             NutellaHashiv++;
-            matrix[newY][newX] = 5; 
             if(matrix[newY][newX]==1){
                 for (var i in grassArr) {
                     if (newX == grassArr[i].x && newY == grassArr[i].y) {
                         grassArr.splice(i, 1);
+                        grassHashiv--;
                         break;
                     }
                 }
             }
+            matrix[newY][newX] = 5;
             this.y = newY;
             this.x = newX;
             this.energy-=2;
@@ -74,22 +75,26 @@ module.exports = class Tractor extends LivingCreature {
             var newX = newCell[0];
             var newY = newCell[1];
             matrix[this.y][this.x] = 6;
-            matrix[newY][newX] = this.index;
-            for (var i in PeopleArr) {
-                PeopleHashiv--;
-                if (newX == PeopleArr[i].x && newY == PeopleArr[i].y) {
-                    PeopleArr.splice(i, 1);
-                    break;
+            if(matrix[newY][newX] == 5){
+                for (var i in PeopleArr) {
+                    
+                    if (newX == PeopleArr[i].x && newY == PeopleArr[i].y) {
+                        PeopleArr.splice(i, 1);
+                        break;
+                    }
                 }
+                PeopleHashiv--;
+                this.energy += 4;
             }
-            this.energy += 4;
+            matrix[newY][newX] = this.index;
+            
             this.y = newY;
             this.x = newX;
         }
     }
     mul() {
         var newCell = random(this.chooseCell(0));
-        if (this.energy >= 15 && newCell && this.value==0) {
+        if (this.energy >= 16 && newCell && this.value==0) {
             var newTractor = new Tractor(newCell[0], newCell[1], this.index,Math.round(Math.random()));
             TractorHashiv++;
             TractorArr.push(newTractor);
@@ -100,13 +105,13 @@ module.exports = class Tractor extends LivingCreature {
     die(){
         if (this.energy<=0){
             matrix[this.y][this.x] = 0;
-            TractorHashiv--;
             for (var i in  TractorArr) {
                 if (this.x ==  TractorArr[i].x && this.y ==  TractorArr[i].y) {
                     TractorArr.splice(i, 1);
                     break;
                 }
             }
+            TractorHashiv--;
         }
     }
 }

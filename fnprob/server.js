@@ -1,15 +1,10 @@
-
-//! Requiring modules  --  START
 var Grass = require("./modules/Grass.js");
 var GrassEater = require("./modules/GrassEater.js");
 var Wolf = require("./modules/Wolf.js");
 var People = require("./modules/People.js");
 var Tractor = require("./modules/Tractor.js");
 let random = require('./modules/random');
-//! Requiring modules  --  END
 
-
-//! Setting global arrays  --  START
 grassArr = [];
 grassEaterArr = [];
 WolfArr = [];
@@ -22,12 +17,6 @@ WolfHashiv = 0;
 PeopleHashiv = 0;
 TractorHashiv = 0;
 NutellaHashiv = 0;
-//! Setting global arrays  -- END
-
-
-
-
-//! Creating MATRIX -- START
 function matrixGenerator(matrixSize, grass, grassEater, Wolf , People , Tractor) {
     for (let i = 0; i < matrixSize; i++) {
         matrix[i] = [];
@@ -36,8 +25,8 @@ function matrixGenerator(matrixSize, grass, grassEater, Wolf , People , Tractor)
         }
     }
     for (let i = 0; i < grass; i++) {
-        let customX = Math.floor(random(matrixSize)); // 0-9
-        let customY = Math.floor(random(matrixSize)); // 4
+        let customX = Math.floor(random(matrixSize)); 
+        let customY = Math.floor(random(matrixSize)); 
         matrix[customY][customX] = 1;
     }
     for (let i = 0; i < grassEater; i++) {
@@ -61,12 +50,8 @@ function matrixGenerator(matrixSize, grass, grassEater, Wolf , People , Tractor)
         matrix[customY][customX] = 5;
     }
 }
-matrixGenerator(20,250,50,10,20,5);
-//! Creating MATRIX -- END
+matrixGenerator(20,350,25,15,8,2);
 
-
-
-//! SERVER STUFF  --  START
 var express = require('express');
 var app = express();
 var server = require('http').Server(app);
@@ -76,37 +61,38 @@ app.get('/', function (req, res) {
     res.redirect('index.html');
 });
 server.listen(3000);
-//! SERVER STUFF END  --  END
-
-
-
 function creatingObjects() {
     for (var y = 0; y < matrix.length; y++) {
         for (var x = 0; x < matrix[y].length; x++) {
             if (matrix[y][x] == 1) {
+                grassHashiv++;
                 var grass = new Grass(x, y);
                 grassArr.push(grass);
-                grassHashiv++;
+                
             }
             else if (matrix[y][x] == 2) {
+                grassEaterHashiv++;
                 var grassEater = new GrassEater(x, y);
                 grassEaterArr.push(grassEater);
-                grassEaterHashiv++;
+               
             } 
             else if (matrix[y][x] == 3) {
+                WolfHashiv++;
                 var wolf = new Wolf(x, y);
                 WolfArr.push(wolf);
-                WolfHashiv++;
+                
             }
             else if (matrix[y][x] == 4) {
+                PeopleHashiv++;
                 var people = new People(x, y);
                 PeopleArr.push(people);
-                PeopleHashiv++;
+                
             }
             else if (matrix[y][x] == 5) {
+                TractorHashiv++;
                 var tractor = new Tractor(x, y);
                 TractorArr.push(tractor);
-                TractorHashiv++;
+                
             }
         }
     }
@@ -116,16 +102,16 @@ let season = 0;
 weateris = "Ձմեռ";
 function chweather(){
     season++;
-    if(season>=0 && season<=6){
+    if(season>=0 && season<=15){
         weateris = "Ձմեռ";
     }
-    else if(season<=13){
+    else if(season<=32){
         weateris = "Գարուն";
     }
-    else if(season<=20){
+    else if(season<=48){
         weateris = "Ամառ";
     }
-    else if(season<=26){
+    else if(season<=64){
         weateris = "Աշուն";
     }
     else{
@@ -167,8 +153,6 @@ function game() {
             TractorArr[i].move();
         }
     }
-
-    //! Object to send
     let sendData = {
         matrix: matrix,
         grassCounter: grassHashiv,
@@ -179,11 +163,22 @@ function game() {
         NutellaCounter: NutellaHashiv,
         weather: weateris 
     }
-
-    //! Send data over the socket to clients who listens "data"
     io.sockets.emit("data", sendData);
 }
-
-
-
+function mah(){
+    for(let y = 0; y < matrix.length; y++){
+        for(let x =0; x < matrix[0].lenght; x++){
+            matrix[y][x] = 0;
+        console.log(matrix[y][x]);
+        }
+    }
+    grassArr = [];
+    grassEaterArr = [];
+    WolfArr = [];
+    PeopleArr = [];
+    TractorArr = []; 
+}
+io.on('connection',function(socket){
+    socket.on("spanel",mah)
+});
 setInterval(game, 1000);

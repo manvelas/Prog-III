@@ -3,7 +3,7 @@ var random = require("./random");
 module.exports = class Wolf extends LivingCreature {
     constructor(x, y, index) {
         super(x,y,index);
-        this.energy = 10;
+        this.energy = 11;
     }
     getNewCoordinates() {
         this.directions = [
@@ -35,7 +35,7 @@ module.exports = class Wolf extends LivingCreature {
             [this.x  ,this.y+2],
             [this.x+1,this.y+2],
             [this.x+2,this.y+2],
-            ];        
+        ];        
     }
     chooseCell(character) {
         this.getNewCoordinates();
@@ -71,45 +71,56 @@ module.exports = class Wolf extends LivingCreature {
             var newX = newCell[0];
             var newY = newCell[1];
             matrix[this.y][this.x] = 0;
-            matrix[newY][newX] = this.index;
             if(matrix[newY][newX] == 2){
                 for (var i in grassEaterArr) {
-                    grassEaterHashiv--;
                     if (newX == grassEaterArr[i].x && newY == grassEaterArr[i].y) {
                         grassEaterArr.splice(i, 1);
                         break;
                     }
                 }
+                grassEaterHashiv--;
                 this.energy += 2;
             }
             else if(matrix[newY][newX] == 6){
                 NutellaHashiv--;
                 this.energy--;
             }
+            matrix[newY][newX] = this.index;
             this.y = newY;
             this.x = newX;
         }
     }
     mul() {
         var newCell = random(this.chooseCell(0));
-        if (this.energy >= 15 && newCell) {
-            var newWolf = new Wolf(newCell[0], newCell[1], this.index);
-            WolfHashiv++;
-            WolfArr.push(newWolf);
-            matrix[newCell[1]][newCell[0]] = 3;
-            this.energy = 10;
+        if(weateris == "Ամառ" || weateris == "Գարուն" || weateris == "Աշուն" ){
+            if (this.energy >= 17 && newCell) {
+                var newWolf = new Wolf(newCell[0], newCell[1], this.index);
+                WolfHashiv++;
+                WolfArr.push(newWolf);
+                matrix[newCell[1]][newCell[0]] = 3;
+                this.energy = 10;
+            }
+        }
+        else if(weateris == "Ձմեռ"){
+            if (this.energy >= 19 && newCell) {
+                var newWolf = new Wolf(newCell[0], newCell[1], this.index);
+                WolfHashiv++;
+                WolfArr.push(newWolf);
+                matrix[newCell[1]][newCell[0]] = 3;
+                this.energy = 11;
+            }
         }
     }
     die(){
         if (this.energy<=0){
             matrix[this.y][this.x] = 0;
-            WolfHashiv--;
             for (var i in  WolfArr) {
                 if (this.x ==  WolfArr[i].x && this.y ==  WolfArr[i].y) {
                     WolfArr.splice(i, 1);
                     break;
                 }
             }
+            WolfHashiv--;
         }
     }
 }
